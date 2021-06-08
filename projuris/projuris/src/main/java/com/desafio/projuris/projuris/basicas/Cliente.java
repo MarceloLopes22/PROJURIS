@@ -1,18 +1,16 @@
 package com.desafio.projuris.projuris.basicas;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-
 import lombok.Data;
 
 @Data
@@ -22,20 +20,21 @@ public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_seq")
+	@SequenceGenerator(name = "cliente_seq", sequenceName = "cliente_seq", allocationSize = 1)
 	private Long id;
 	
 	@NotEmpty(message = "Por favor informar o nome do cliente.")
 	private String nome;
 	
 	private String endereco;
-	
-	@Pattern(regexp="(^$|[0-9]{10})", message = "Por favor informar um telefone válido.")
+
+	@NotEmpty(message = "Por favor informe o telefone")
 	private String telefone;
 	
 	@Email(message = "Por favor informar um email valido.", regexp = "^(.+)@(.+)$")
 	private String email;
 
-	@OneToMany
-	private Set<Equipamento> equipamentos = new HashSet<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	private Equipamento equipamento;
 }
