@@ -24,17 +24,29 @@ public class OrdemServicoController {
 	@Autowired
 	private OrdemServicoService service;
 
-	
+	/** Método résponsavel em salvar uma ordem de serviço.
+	 * @param ordemServico
+	 * @param result
+	 * @return {@link ResponseEntity}
+	 * */
 	@PostMapping(value = "/ordem-servico/salvar")
 	public ResponseEntity<?> salvar(@Valid @RequestBody OrdemServico ordemServico, BindingResult result) {
 		return this.service.salvar(ordemServico, result);
 	}
 	
+	/** Método résponsavel em consultar ordem de serviço pendente ligada ao responsavel.
+	 * @param nome
+	 * @return {@link ResponseEntity}
+	 * */
 	@RequestMapping(value = "/ordem-servico/consultar-ordem-pendente-por-responsavel/{nome}", method = RequestMethod.GET)
 	public ResponseEntity<?> consultarOrdemPendentePorResponsavel(@PathVariable("nome") String nome) {
 		return this.service.consultarOrdemPendentePorResponsavel(nome);
 	}
 	
+	/** Método résponsavel em salvar uma ordem de serviço com as data de inicio e fim do atendimento definidas pelo operador.
+	 * @param nome
+	 * @return {@link ResponseEntity}
+	 * */
 	@PostMapping(value = "/ordem-servico/responsavel-criar-ordem-servico")
 	public ResponseEntity<?> responsavelCriarOrdemServico(@Valid @RequestBody OrdemServico ordemServico, BindingResult result) {
 		return this.service.responsavelCriarOrdemServico(ordemServico, result);
