@@ -1,5 +1,6 @@
 package com.desafio.projuris.projuris.controllers.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ public class Response<T> {
 
 	private Object data;
 
-	private List<String> erros;
+	private List<String> erros = new ArrayList<>();
 	
 	private HttpStatus httpStatus;
 	

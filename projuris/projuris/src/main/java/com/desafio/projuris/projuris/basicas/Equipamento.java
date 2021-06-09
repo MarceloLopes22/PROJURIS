@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotEmpty;
 
 import com.desafio.projuris.projuris.basicas.enums.Tipo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Equipamento implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "equipamento_seq")
 	@SequenceGenerator(name = "equipamento_seq", sequenceName = "equipamento_seq", allocationSize = 1)
+	@JsonIgnore
 	private Long id;
 	
 	@NotEmpty(message = "Por favor informar a descrição do equipamento.")

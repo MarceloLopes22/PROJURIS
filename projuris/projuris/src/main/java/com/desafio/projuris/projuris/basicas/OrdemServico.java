@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.desafio.projuris.projuris.basicas.enums.Etapa;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -26,6 +27,7 @@ public class OrdemServico implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ordemservico_seq")
 	@SequenceGenerator(name = "ordemservico_seq", sequenceName = "ordemservico_seq", allocationSize = 1)
+	@JsonIgnore
 	private Long id;
 	
 	private LocalDate dataInicioAtendimento;

@@ -34,4 +34,9 @@ public class OrdemServicoController {
 	public ResponseEntity<?> consultarOrdemPendentePorResponsavel(@PathVariable("nome") String nome) {
 		return this.service.consultarOrdemPendentePorResponsavel(nome);
 	}
+	
+	@PostMapping(value = "/ordem-servico/responsavel-criar-ordem-servico")
+	public ResponseEntity<?> responsavelCriarOrdemServico(@Valid @RequestBody OrdemServico ordemServico, BindingResult result) {
+		return this.service.responsavelCriarOrdemServico(ordemServico, result);
+	}
 }
