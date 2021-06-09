@@ -17,6 +17,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import com.desafio.projuris.projuris.basicas.Cliente;
 import com.desafio.projuris.projuris.basicas.Equipamento;
@@ -49,16 +51,29 @@ class ProjurisApplicationTests {
 	}
 	
 	@Test
+	void testSalvarErroBadRequest() {
+		OrdemServico ordemServico = new OrdemServico();
+		BindingResult result = new BeanPropertyBindingResult(ordemServico, "ordemServico");
+		result.addError(new ObjectError("detalhesExecutados", "Por favor informar o procedimento executado."));
+		ResponseEntity<?> salvar = service.salvar(ordemServico, result);
+		Response<?> response = Response.class.cast(salvar.getBody());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getHttpStatus());
+		assertEquals(result.getAllErrors().get(0).getDefaultMessage(), response.getErros().get(0));
+	}
+	
+	@Test
 	void testConsultarOrdemPendentePorResponsavelSucesso() {
-		Response<?> responseDto = new Response<>();
-		responseDto.setData(new OrdemServico());
-		responseDto.setHttpStatus(HttpStatus.OK);
-		responseDto.setMensagemSucesso("Ordem consultada com sucesso.");
-		
 		doReturn(new ArrayList<OrdemServico>()).when(repository).consultarOrdemPorEtapaPendenteEResponsavelPorNome("Roberto");
 		ResponseEntity<?> salvar = service.consultarOrdemPendentePorResponsavel("Roberto");
 		Response<?> response = Response.class.cast(salvar.getBody());
 		assertNotNull(response.getMensagemSucesso());
+	}
+	
+	@Test
+	void testConsultarOrdemPendentePorResponsavelSemDado() {
+		doReturn(null).when(repository).consultarOrdemPorEtapaPendenteEResponsavelPorNome("Roberto");
+		ResponseEntity<?> response = service.consultarOrdemPendentePorResponsavel("Roberto");
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	
 	@Test
@@ -81,6 +96,19 @@ class ProjurisApplicationTests {
 		ResponseEntity<?> salvar = service.responsavelCriarOrdemServico(ordemServico, new BeanPropertyBindingResult(null, null));
 		Response<?> response = Response.class.cast(salvar.getBody());
 		assertEquals(HttpStatus.CREATED, response.getHttpStatus());
+	}
+	
+	@Test
+	void testResponsavelCriarOrdemServicoErroBadRequest() {
+		
+		OrdemServico ordemServico = new OrdemServico();
+		BindingResult result = new BeanPropertyBindingResult(ordemServico, "ordemServico");
+		result.addError(new ObjectError("responsavel", "Por favor informar o responsável da execução do serviço"));
+		
+		ResponseEntity<?> salvar = service.responsavelCriarOrdemServico(ordemServico, result);
+		Response<?> response = Response.class.cast(salvar.getBody());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getHttpStatus());
+		assertEquals(result.getAllErrors().get(0).getDefaultMessage(), response.getErros().get(0));
 	}
 
 }
