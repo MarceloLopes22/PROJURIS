@@ -21,6 +21,11 @@ public class OrdemServicoService {
 	@Autowired
 	private OrdemServicoRepository repository;
 	
+	/** Método résponsavel em salvar uma ordem de serviço.
+	 * @param ordemServico
+	 * @param result
+	 * @return {@link ResponseEntity}
+	 * */
 	public ResponseEntity<?> salvar(@Valid OrdemServico ordemServico, BindingResult result) {
 		Response<OrdemServico> response = new Response<OrdemServico>();
 		
@@ -39,6 +44,10 @@ public class OrdemServicoService {
 		return ResponseEntity.ok(response);
 	}
 
+	/** Método résponsavel em consultar ordem de serviço pendente ligada ao responsavel.
+	 * @param nome
+	 * @return {@link ResponseEntity}
+	 * */
 	public ResponseEntity<?> consultarOrdemPendentePorResponsavel(String nome) {
 		Response<OrdemServico> response = new Response<OrdemServico>();
 		
@@ -55,6 +64,10 @@ public class OrdemServicoService {
 		return ResponseEntity.ok(response);
 	}
 
+	/** Método résponsavel em salvar uma ordem de serviço com as data de inicio e fim do atendimento definidas pelo operador.
+	 * @param nome
+	 * @return {@link ResponseEntity}
+	 * */
 	public ResponseEntity<?> responsavelCriarOrdemServico(@Valid OrdemServico ordemServico, BindingResult result) {
 		Response<OrdemServico> response = new Response<OrdemServico>();
 		
