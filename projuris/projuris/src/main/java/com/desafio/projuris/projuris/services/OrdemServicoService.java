@@ -1,5 +1,7 @@
 package com.desafio.projuris.projuris.services;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,22 @@ public class OrdemServicoService {
 		response.setData(ordem);
 		response.setHttpStatus(HttpStatus.CREATED);
 		response.setMensagemSucesso("Serviço criado com sucesso.");
+		
+		return ResponseEntity.ok(response);
+	}
+
+	public ResponseEntity<?> consultarOrdemPendentePorResponsavel(String nome) {
+		Response<OrdemServico> response = new Response<OrdemServico>();
+		
+		List<OrdemServico> ordemConsultada = repository.consultarOrdemPorEtapaPendenteEResponsavelPorNome(nome);
+		
+		if (ordemConsultada != null) {
+			response.setData(ordemConsultada);
+			response.setHttpStatus(HttpStatus.OK);
+			response.setMensagemSucesso("Ordem consultada com sucesso.");
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 		
 		return ResponseEntity.ok(response);
 	}
