@@ -18,6 +18,12 @@ import com.desafio.projuris.projuris.repositorys.OrdemServicoRepository;
 @Service
 public class OrdemServicoService {
 	
+	private static final String ORDEM_DE_SERVIÇO_CRIADO_COM_SUCESSO = "Ordem de serviço criado com sucesso.";
+	
+	private static final String ORDEM_CONSULTADA_COM_SUCESSO = "Ordem consultada com sucesso.";
+	
+	private static final String SERVIÇO_CRIADO_COM_SUCESSO = "Serviço criado com sucesso.";
+	
 	@Autowired
 	private OrdemServicoRepository repository;
 	
@@ -39,7 +45,7 @@ public class OrdemServicoService {
 		
 		response.setData(ordem);
 		response.setHttpStatus(HttpStatus.CREATED);
-		response.setMensagemSucesso("Serviço criado com sucesso.");
+		response.setMensagemSucesso(SERVIÇO_CRIADO_COM_SUCESSO);
 		
 		return ResponseEntity.ok(response);
 	}
@@ -56,7 +62,7 @@ public class OrdemServicoService {
 		if (ordemConsultada != null) {
 			response.setData(ordemConsultada);
 			response.setHttpStatus(HttpStatus.OK);
-			response.setMensagemSucesso("Ordem consultada com sucesso.");
+			response.setMensagemSucesso(ORDEM_CONSULTADA_COM_SUCESSO);
 		} else {
 			return ResponseEntity.notFound().build();
 		}
@@ -86,9 +92,19 @@ public class OrdemServicoService {
 		
 		response.setData(ordem);
 		response.setHttpStatus(HttpStatus.CREATED);
-		response.setMensagemSucesso("Ordem de serviço criado com sucesso.");
+		response.setMensagemSucesso(ORDEM_DE_SERVIÇO_CRIADO_COM_SUCESSO);
 		
 		return ResponseEntity.ok(response);
+	}
+
+	public ResponseEntity<?> listarTodasOrdens() {
+		List<OrdemServico> ordens = repository.findAll();
+		
+		if (ordens.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(ordens);
 	}
 
 }

@@ -51,4 +51,12 @@ public class OrdemServicoController {
 	public ResponseEntity<?> responsavelCriarOrdemServico(@Valid @RequestBody OrdemServico ordemServico, BindingResult result) {
 		return this.service.responsavelCriarOrdemServico(ordemServico, result);
 	}
+	
+	/** Método résponsavel listar todas as ordens.
+	 * @return {@link ResponseEntity}
+	 * */
+	@RequestMapping(value = "/ordem-servico/listar-todas-ordens", method = RequestMethod.GET)
+	public ResponseEntity<?> listarTodasOrdens() {
+		return this.service.listarTodasOrdens();
+	}
 }
